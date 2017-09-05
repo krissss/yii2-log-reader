@@ -6,7 +6,7 @@ Yii2 log reader
 
 Preview
 ------------
-![preview](https://github.com/krissss/yii2-log-reader/raw/master/screenshots/vim-screenshot.jpg)
+![preview](https://github.com/krissss/yii2-log-reader/raw/master/screenshots/preview.png)
 
 Installation
 ------------
