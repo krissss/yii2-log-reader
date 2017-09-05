@@ -1,0 +1,21 @@
+{
+    "name": "kriss/yii2-log-reader",
+    "description": "Yii2 log reader",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","module","log","log reader"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kriss",
+            "email": "462679766@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "kriss\\module\\logReader\\": ""
+        }
+    }
+}
