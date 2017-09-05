@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = 'Logs';
 <?php
 $this->registerCss(<<<CSS
 
-.log-reader-history .table tbody td {
+.log-reader-index .table tbody td {
    vertical-align: middle;
 }
 
