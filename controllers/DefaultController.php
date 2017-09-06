@@ -39,7 +39,10 @@ class DefaultController extends Controller
     {
         $log = $this->find($slug, $stamp);
         if ($log->isExist) {
-            return Yii::$app->response->sendFile($log->fileName, $log->downloadName, ['inline' => true]);
+            return Yii::$app->response->sendFile($log->fileName, basename($log->fileName), [
+                'mimeType' => 'text/plain',
+                'inline' => true
+            ]);
         } else {
             throw new NotFoundHttpException('Log not found.');
         }

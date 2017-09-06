@@ -193,13 +193,8 @@ class Log extends Object
     public static function extractFileStamp($alias, $fileName)
     {
         $originName = FileHelper::normalizePath(Yii::getAlias($alias, false));
-        $origInfo = pathinfo($originName);
-        $fileInfo = pathinfo($fileName);
-        if (
-            $origInfo['dirname'] === $fileInfo['dirname']
-            && strpos($fileInfo['filename'], $origInfo['filename']) === 0
-        ) {
-            return $fileInfo['extension'];
+        if (strpos($fileName, $originName) === 0) {
+            return substr($fileName, strlen($originName) + 1);
         } else {
             return null;
         }
