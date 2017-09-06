@@ -1,6 +1,6 @@
 <?php
 
-namespace kriss\modules\logReader;
+namespace kriss\logReader;
 
 use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;

@@ -38,7 +38,7 @@ return [
     'bootstrap' => ['log-reader'],
     'modules' => [
         'log-reader' => [
-            'class' => 'zhuravljov\yii\logreader\Module',
+            'class' => 'kriss\logreader\Module',
             'aliases' => [
                 'Frontend Errors' => '@frontend/runtime/logs/app.log',
                 'Backend Errors' => '@backend/runtime/logs/app.log',
@@ -52,11 +52,11 @@ return [
 You can then access Log Reader using the following URL:
 
 ```php
-http://localhost/path/to/index.php?r=logreader
+http://localhost/path/to/index.php?r=log-reader
 ```
 
 or if you have enabled pretty URLs, you may use the following URL:
 
 ```php
-http://localhost/path/to/logreader
+http://localhost/path/to/log-reader
 ```

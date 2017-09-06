@@ -7,7 +7,7 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
-use kriss\modules\logReader\Log;
+use kriss\logReader\Log;
 
 $this->title = $name;
 $this->params['breadcrumbs'][] = ['label' => 'Logs', 'url' => ['index']];

@@ -1,9 +1,9 @@
 <?php
 
-namespace kriss\modules\logReader\controllers;
+namespace kriss\logReader\controllers;
 
-use kriss\modules\logReader\Module;
-use kriss\modules\logReader\Log;
+use kriss\logReader\Module;
+use kriss\logReader\Log;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;

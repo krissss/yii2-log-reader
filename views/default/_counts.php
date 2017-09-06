@@ -1,12 +1,12 @@
 <?php
 /**
  * @var \yii\web\View $this
- * @var \kriss\modules\logReader\Log $log
+ * @var \kriss\logReader\Log $log
  */
 
 use yii\helpers\Html;
 
-/** @var \kriss\modules\logReader\Module $module */
+/** @var \kriss\logReader\Module $module */
 $module = $this->context->module;
 
 foreach ($log->getCounts() as $level => $count) {
