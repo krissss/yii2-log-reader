@@ -18,13 +18,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist kriss/yii2-log-reader "^2.*"
+php composer.phar require --prefer-dist kriss/yii2-log-reader "2.*"
 ```
 
 or add
 
 ```
-"kriss/yii2-log-reader": "^2.*"
+"kriss/yii2-log-reader": "2.*"
 ```
 
 to the require section of your `composer.json` file.
