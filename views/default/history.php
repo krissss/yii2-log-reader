@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $name;
                     'headerOptions' => ['class' => 'sort-numerical'],
                 ], [
                     'class' => '\yii\grid\ActionColumn',
-                    'template' => '{view} {delete}',
+                    'template' => '{view} {delete} {download}',
                     'urlCreator' => function ($action, Log $log) {
                         return [$action, 'slug' => $log->slug, 'stamp' => $log->stamp];
                     },
@@ -55,6 +55,11 @@ $this->params['breadcrumbs'][] = $name;
                             return Html::a('Delete', $url, [
                                 'class' => 'btn btn-xs btn-danger',
                                 'data' => ['method' => 'post', 'confirm' => 'Are you sure?'],
+                            ]);
+                        },
+                        'download' => function ($url, Log $log) {
+                            return !$log->isExist ? '' : Html::a('Download', $url, [
+                                'class' => 'btn btn-xs btn-default',
                             ]);
                         },
                     ],

@@ -76,14 +76,25 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionDelete($slug, $stamp = null){
+    public function actionDelete($slug, $stamp = null)
+    {
         $log = $this->find($slug, $stamp);
-        if(unlink($log->fileName)){
+        if (unlink($log->fileName)) {
             Yii::$app->session->setFlash('success', 'delete success');
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'delete error');
         }
         return $this->redirect(Url::previous());
+    }
+
+    public function actionDownload($slug, $stamp = null)
+    {
+        $log = $this->find($slug, $stamp);
+        if ($log->isExist) {
+            Yii::$app->response->sendFile($log->fileName)->send();
+        } else {
+            throw new NotFoundHttpException('Log not found.');
+        }
     }
 
     /**

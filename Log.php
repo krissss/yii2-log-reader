@@ -182,13 +182,7 @@ class Log extends Object
         $fileName = FileHelper::normalizePath(Yii::getAlias($alias, false));
         if ($stamp === null) return $fileName;
 
-        $info = pathinfo($fileName);
-        return strtr('{dir}/{name}.{stamp}.{ext}', [
-            '{dir}' => $info['dirname'],
-            '{name}' => $info['filename'],
-            '{ext}' => $info['extension'],
-            '{stamp}' => $stamp,
-        ]);
+        return $fileName . '.' . $stamp;
     }
 
     /**
@@ -202,11 +196,10 @@ class Log extends Object
         $origInfo = pathinfo($originName);
         $fileInfo = pathinfo($fileName);
         if (
-            $origInfo['dirname'] === $fileInfo['dirname'] &&
-            $origInfo['extension'] === $fileInfo['extension'] &&
-            strpos($fileInfo['filename'], $origInfo['filename']) === 0
+            $origInfo['dirname'] === $fileInfo['dirname']
+            && strpos($fileInfo['filename'], $origInfo['filename']) === 0
         ) {
-            return substr($fileInfo['filename'], strlen($origInfo['filename']) + 1);
+            return $fileInfo['extension'];
         } else {
             return null;
         }
