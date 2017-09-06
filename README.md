@@ -40,7 +40,7 @@ return [
     'bootstrap' => ['log-reader'],
     'modules' => [
         'log-reader' => [
-            'class' => 'kriss\logreader\Module',
+            'class' => 'kriss\logReader\Module',
             'aliases' => [
                 'Frontend Errors' => '@frontend/runtime/logs/app.log',
                 'Backend Errors' => '@backend/runtime/logs/app.log',
@@ -73,7 +73,7 @@ return [
     'bootstrap' => ['log-reader'],
     'modules' => [
         'log-reader' => [
-            'class' => 'kriss\logreader\Module',
+            'class' => 'kriss\logReader\Module',
             'extraBehaviors' => [
                 'login-filter' => 'xxx/action/UserLoginFilter'
             ],
