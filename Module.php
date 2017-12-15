@@ -21,10 +21,6 @@ class Module extends \yii\base\Module implements BootstrapInterface
     /**
      * @var array
      */
-    public $extraBehaviors = [];
-    /**
-     * @var array
-     */
     public $levelClasses = [
         'trace' => 'label-default',
         'info' => 'label-info',
@@ -50,14 +46,6 @@ class Module extends \yii\base\Module implements BootstrapInterface
         } else {
             throw new InvalidConfigException('Can use for web application only.');
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), $this->extraBehaviors);
     }
 
     /**

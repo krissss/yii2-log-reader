@@ -62,27 +62,3 @@ or if you have enabled pretty URLs, you may use the following URL:
 ```php
 http://localhost/path/to/log-reader
 ```
-
-Advanced Usage
------
-
-you can config module params `extraBehaviors` to add behaviors, like user login filter:
-
-```php
-return [
-    'bootstrap' => ['log-reader'],
-    'modules' => [
-        'log-reader' => [
-            'class' => 'kriss\logReader\Module',
-            'extraBehaviors' => [
-                'login-filter' => 'xxx/action/UserLoginFilter'
-            ],
-            'aliases' => [
-                'Frontend Errors' => '@frontend/runtime/logs/app.log',
-                'Backend Errors' => '@backend/runtime/logs/app.log',
-                'Console Errors' => '@console/runtime/logs/app.log',
-            ],
-        ],
-    ],
-];
-```
