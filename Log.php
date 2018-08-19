@@ -3,6 +3,7 @@
 namespace kriss\logReader;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\caching\FileDependency;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
