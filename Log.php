@@ -3,7 +3,6 @@
 namespace kriss\logReader;
 
 use Yii;
-use yii\base\Object;
 use yii\caching\FileDependency;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
@@ -22,7 +21,7 @@ use yii\helpers\Inflector;
  * @property string $downloadName
  * @property array $counts
  */
-class Log extends Object
+class Log extends BaseObject
 {
     private $_name;
     private $_alias;
