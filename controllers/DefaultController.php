@@ -79,9 +79,15 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionDelete($slug, $stamp = null)
+    public function actionDelete($slug, $stamp = null, $since = null)
     {
         $log = $this->find($slug, $stamp);
+        if ($since) {
+            if ($log->updatedAt != $since) {
+                Yii::$app->session->setFlash('error', 'delete error: file has updated');
+                return $this->redirect(Url::previous());
+            }
+        }
         if (unlink($log->fileName)) {
             Yii::$app->session->setFlash('success', 'delete success');
         } else {

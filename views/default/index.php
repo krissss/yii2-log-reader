@@ -67,9 +67,9 @@ $this->params['breadcrumbs'][] = 'Logs';
                             ]);
                         },
                         'delete' => function ($url, Log $log) {
-                            return !$log->isExist ? '' : Html::a('Delete', $url, [
+                            return !$log->isExist ? '' : Html::a('Delete', array_merge($url, ['since' => $log->updatedAt]), [
                                 'class' => 'btn btn-xs btn-danger',
-                                'data' => ['method' => 'post', 'confirm' => 'Are you sure?'],
+                                'data' => ['method' => 'post', 'data-a' => 'aa', 'confirm' => 'Are you sure?'],
                             ]);
                         },
                         'download' => function ($url, Log $log) {
