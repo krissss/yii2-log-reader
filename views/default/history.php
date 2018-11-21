@@ -6,9 +6,9 @@
  * @var integer $fullSize
  */
 
+use kriss\logReader\Log;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use kriss\logReader\Log;
 use yii\i18n\Formatter;
 
 $this->title = $name;
@@ -17,12 +17,16 @@ $this->params['breadcrumbs'][] = $name;
 
 $formatter = new Formatter();
 $fullSizeFormat = $formatter->format($fullSize, 'shortSize');
+$zipBtn = '';
+if ($fullSize > 1) {
+    $zipBtn = Html::a('zip', ['zip', 'slug' => Yii::$app->request->get('slug')], ['class' => 'btn btn-success btn-xs']);
+}
 ?>
     <div class="log-reader-history">
         <?= GridView::widget([
             'tableOptions' => ['class' => 'table'],
             'dataProvider' => $dataProvider,
-            'caption' => "full size: {$fullSizeFormat}",
+            'caption' => "full size: {$fullSizeFormat}. $zipBtn",
             'columns' => [
                 [
                     'attribute' => 'fileName',
@@ -51,7 +55,10 @@ $fullSizeFormat = $formatter->format($fullSize, 'shortSize');
                         return [$action, 'slug' => $log->slug, 'stamp' => $log->stamp];
                     },
                     'buttons' => [
-                        'view' => function ($url) {
+                        'view' => function ($url, Log $log) {
+                            if ($log->isZip) {
+                                return '';
+                            }
                             return Html::a('View', $url, [
                                 'class' => 'btn btn-xs btn-primary',
                                 'target' => '_blank',

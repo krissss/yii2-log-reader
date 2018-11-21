@@ -7,6 +7,7 @@ use yii\base\BaseObject;
 use yii\caching\FileDependency;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
+use yii\helpers\StringHelper;
 
 /**
  * Class Log
@@ -17,6 +18,7 @@ use yii\helpers\Inflector;
  * @property string $slug
  * @property string $fileName
  * @property boolean $isExist
+ * @property boolean $isZip
  * @property integer|null $size
  * @property integer|null $updatedAt
  * @property string $downloadName
@@ -90,6 +92,14 @@ class Log extends BaseObject
     public function getIsExist()
     {
         return file_exists($this->getFileName());
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsZip()
+    {
+        return $this->getIsExist() ? StringHelper::endsWith($this->getFileName(), '.zip') : false;
     }
 
     /**

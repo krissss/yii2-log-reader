@@ -2,8 +2,9 @@
 
 namespace kriss\logReader\controllers;
 
-use kriss\logReader\Module;
 use kriss\logReader\Log;
+use kriss\logReader\models\ZipLogForm;
+use kriss\logReader\Module;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -80,6 +81,24 @@ class DefaultController extends Controller
                 ],
             ]),
             'fullSize' => $fullSize
+        ]);
+    }
+
+    public function actionZip($slug)
+    {
+        $log = $this->find($slug, null);
+        $model = new ZipLogForm(['log' => $log]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $result = $model->zip();
+            if ($result !== false) {
+                Yii::$app->session->setFlash('success', 'zip success');
+                return $this->redirect(Url::previous());
+            } else {
+                Yii::$app->session->setFlash('error', 'zip error: ', implode('<br>', $model->getFirstErrors()));
+            }
+        }
+        return $this->render('zip', [
+            'model' => $model,
         ]);
     }
 
