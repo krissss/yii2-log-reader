@@ -6,6 +6,7 @@ use kriss\logReader\Module;
 use kriss\logReader\Log;
 use Yii;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -63,10 +64,12 @@ class DefaultController extends Controller
         Url::remember();
         $log = $this->find($slug, null);
 
+        $allLogs = $this->module->getHistory($log);
+        $fullSize = array_sum(ArrayHelper::getColumn($allLogs, 'size'));
         return $this->render('history', [
             'name' => $log->name,
             'dataProvider' => new ArrayDataProvider([
-                'allModels' => $this->module->getHistory($log),
+                'allModels' => $allLogs,
                 'sort' => [
                     'attributes' => [
                         'fileName',
@@ -76,6 +79,7 @@ class DefaultController extends Controller
                     'defaultOrder' => ['updatedAt' => SORT_DESC],
                 ],
             ]),
+            'fullSize' => $fullSize
         ]);
     }
 

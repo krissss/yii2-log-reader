@@ -3,20 +3,26 @@
  * @var \yii\web\View $this
  * @var string $name
  * @var \yii\data\ArrayDataProvider $dataProvider
+ * @var integer $fullSize
  */
 
 use yii\grid\GridView;
 use yii\helpers\Html;
 use kriss\logReader\Log;
+use yii\i18n\Formatter;
 
 $this->title = $name;
 $this->params['breadcrumbs'][] = ['label' => 'Logs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $name;
+
+$formatter = new Formatter();
+$fullSizeFormat = $formatter->format($fullSize, 'shortSize');
 ?>
     <div class="log-reader-history">
         <?= GridView::widget([
             'tableOptions' => ['class' => 'table'],
             'dataProvider' => $dataProvider,
+            'caption' => "full size: {$fullSizeFormat}",
             'columns' => [
                 [
                     'attribute' => 'fileName',
