@@ -5,6 +5,7 @@ namespace kriss\logReader;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;
 use yii\web\Application;
+use yii\web\GroupUrlRule;
 
 /**
  * LogReader module definition class
@@ -38,11 +39,15 @@ class Module extends \yii\base\Module implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof Application) {
-            $app->getUrlManager()->addRules([
-                $this->id => $this->id . '/default/index',
-                $this->id . '/<action:\w+>/<slug:[\w-]+>' => $this->id . '/default/<action>',
-                $this->id . '/<action:\w+>' => $this->id . '/default/<action>',
-            ], false);
+            $app->getUrlManager()->addRules([[
+                'class' => GroupUrlRule::class,
+                'prefix' => $this->id,
+                'rules' => [
+                    '' => 'default/index',
+                    '<action:\w+>/<slug:[\w-]+>' => 'default/<action>',
+                    '<action:\w+>' => 'default/<action>',
+                ],
+            ]], false);
         } else {
             throw new InvalidConfigException('Can use for web application only.');
         }
