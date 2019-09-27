@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = 'Logs';
         <?= GridView::widget([
             'layout' => '{items}',
             'tableOptions' => ['class' => 'table'],
+            'options' => ['class' => 'grid-view table-responsive'],
             'dataProvider' => $dataProvider,
             'columns' => [
                 [

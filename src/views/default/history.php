@@ -27,6 +27,7 @@ $captionBtnStr = implode(' ', $captionBtn);
     <div class="log-reader-history">
         <?= GridView::widget([
             'tableOptions' => ['class' => 'table'],
+            'options' => ['class' => 'grid-view table-responsive'],
             'dataProvider' => $dataProvider,
             'caption' => "full size: {$fullSizeFormat}. {$captionBtnStr}",
             'columns' => [
