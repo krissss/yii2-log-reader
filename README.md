@@ -91,7 +91,7 @@ For every day log view, you can config yii log like this:
 And config log-reader module `aliases` like:
 
 ```php
-test => '@runtime/logs/test/test.log'
+'test' => '@runtime/logs/test/test.log'
 ```
 
 Then log with be save filename like `test.log.20190924`. This is log-reader `history` load filename.
