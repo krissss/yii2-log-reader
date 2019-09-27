@@ -3,6 +3,7 @@
 namespace kriss\logReader\controllers;
 
 use kriss\logReader\Log;
+use kriss\logReader\models\CleanForm;
 use kriss\logReader\models\ZipLogForm;
 use kriss\logReader\Module;
 use Yii;
@@ -98,6 +99,24 @@ class DefaultController extends Controller
             }
         }
         return $this->render('zip', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionClean($slug)
+    {
+        $log = $this->find($slug, null);
+        $model = new CleanForm(['log' => $log]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $result = $model->clean();
+            if ($result !== false) {
+                Yii::$app->session->setFlash('success', 'clean success');
+                return $this->redirect(Url::previous());
+            } else {
+                Yii::$app->session->setFlash('error', 'clean error: ', implode('<br>', $model->getFirstErrors()));
+            }
+        }
+        return $this->render('clean', [
             'model' => $model,
         ]);
     }

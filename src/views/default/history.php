@@ -17,16 +17,18 @@ $this->params['breadcrumbs'][] = $name;
 
 $formatter = new Formatter();
 $fullSizeFormat = $formatter->format($fullSize, 'shortSize');
-$zipBtn = '';
+$captionBtn = [];
 if ($fullSize > 1) {
-    $zipBtn = Html::a('zip', ['zip', 'slug' => Yii::$app->request->get('slug')], ['class' => 'btn btn-success btn-xs']);
+    $captionBtn[] = Html::a('zip', ['zip', 'slug' => Yii::$app->request->get('slug')], ['class' => 'btn btn-success btn-xs']);
+    $captionBtn[] = Html::a('clean', ['clean', 'slug' => Yii::$app->request->get('slug')], ['class' => 'btn btn-danger btn-xs']);
 }
+$captionBtnStr = implode(' ', $captionBtn);
 ?>
     <div class="log-reader-history">
         <?= GridView::widget([
             'tableOptions' => ['class' => 'table'],
             'dataProvider' => $dataProvider,
-            'caption' => "full size: {$fullSizeFormat}. $zipBtn",
+            'caption' => "full size: {$fullSizeFormat}. {$captionBtnStr}",
             'columns' => [
                 [
                     'attribute' => 'fileName',

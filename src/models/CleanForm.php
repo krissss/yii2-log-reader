@@ -4,9 +4,8 @@ namespace kriss\logReader\models;
 
 use kriss\logReader\Log;
 use yii\base\Model;
-use ZipArchive;
 
-class ZipLogForm extends Model
+class CleanForm extends Model
 {
     /**
      * @var Log
@@ -17,13 +16,10 @@ class ZipLogForm extends Model
 
     public $end;
 
-    public $deleteAfterZip = 0;
-
     public function rules()
     {
         return [
             [['start', 'end'], 'string'],
-            [['deleteAfterZip'], 'boolean'],
         ];
     }
 
@@ -32,15 +28,6 @@ class ZipLogForm extends Model
         return [
             'start' => 'Start Date',
             'end' => 'End Date',
-            'deleteAfterZip' => 'Is Delete After Zip',
-        ];
-    }
-
-    public function attributeHints()
-    {
-        return [
-            'start' => 'contain this',
-            'end' => 'not contain this',
         ];
     }
 
@@ -51,7 +38,15 @@ class ZipLogForm extends Model
         $this->end = date('Y-m-01');
     }
 
-    public function zip()
+    public function attributeHints()
+    {
+        return [
+            'start' => 'contain this',
+            'end' => 'not contain this',
+        ];
+    }
+
+    public function clean()
     {
         $log = $this->log;
         $startStamp = date('Ymd', strtotime($this->start));
@@ -72,23 +67,9 @@ class ZipLogForm extends Model
                 }
             }
         }
-        $current = date('YmdHis');
-        $fileName = Log::extractFileName($log->alias, "{$startStamp}-{$endStamp}-{$current}.zip");
-        $zip = new ZipArchive();
-        if ($zip->open($fileName, ZipArchive::CREATE) !== true) {
-            $this->addError('log', 'cannot open zipFile, do you have permission?');
-            return false;
-        }
-        foreach ($logs as $log) {
-            $zip->addFile($log->fileName, basename($log->fileName));
-        }
-        $zip->close();
 
-        // 删除已打包的文件
-        if ($this->deleteAfterZip) {
-            foreach ($logs as $log) {
-                unlink($log->fileName);
-            }
+        foreach ($logs as $log) {
+            unlink($log->fileName);
         }
 
         return true;
