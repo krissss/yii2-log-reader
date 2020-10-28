@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class DefaultController extends Controller
 {
@@ -23,18 +24,20 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         Url::remember();
-        return $this->render('index', [
-            'dataProvider' => new ArrayDataProvider([
-                'allModels' => $this->module->getLogs(),
-                'sort' => [
-                    'attributes' => [
-                        'name',
-                        'size' => ['default' => SORT_DESC],
-                        'updatedAt' => ['default' => SORT_DESC],
-                    ],
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $this->module->getLogs(),
+            'sort' => [
+                'attributes' => [
+                    'name',
+                    'size' => ['default' => SORT_DESC],
+                    'updatedAt' => ['default' => SORT_DESC],
                 ],
-                'pagination' => ['pageSize' => 0],
-            ]),
+            ],
+            'pagination' => ['pageSize' => 0],
+        ]);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'defaultTailLine' => $this->module->defaultTailLine,
         ]);
     }
 
@@ -64,24 +67,29 @@ class DefaultController extends Controller
     public function actionHistory($slug)
     {
         Url::remember();
+        
         $log = $this->find($slug, null);
-
         $allLogs = $this->module->getHistory($log);
+        
         $fullSize = array_sum(ArrayHelper::getColumn($allLogs, 'size'));
+        
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $allLogs,
+            'sort' => [
+                'attributes' => [
+                    'fileName',
+                    'size' => ['default' => SORT_DESC],
+                    'updatedAt' => ['default' => SORT_DESC],
+                ],
+                'defaultOrder' => ['updatedAt' => SORT_DESC],
+            ],
+        ]);
+
         return $this->render('history', [
             'name' => $log->name,
-            'dataProvider' => new ArrayDataProvider([
-                'allModels' => $allLogs,
-                'sort' => [
-                    'attributes' => [
-                        'fileName',
-                        'size' => ['default' => SORT_DESC],
-                        'updatedAt' => ['default' => SORT_DESC],
-                    ],
-                    'defaultOrder' => ['updatedAt' => SORT_DESC],
-                ],
-            ]),
-            'fullSize' => $fullSize
+            'dataProvider' => $dataProvider,
+            'fullSize' => $fullSize,
+            'defaultTailLine' => $this->module->defaultTailLine,
         ]);
     }
 
@@ -143,6 +151,20 @@ class DefaultController extends Controller
         $log = $this->find($slug, $stamp);
         if ($log->isExist) {
             Yii::$app->response->sendFile($log->fileName)->send();
+        } else {
+            throw new NotFoundHttpException('Log not found.');
+        }
+    }
+
+    public function actionTail($slug, $line = 100, $stamp = null)
+    {
+        $log = $this->find($slug, $stamp);
+        if ($log->isExist) {
+            $result = shell_exec("tail -n {$line} {$log->fileName}");
+
+            Yii::$app->response->format = Response::FORMAT_RAW;
+            Yii::$app->response->headers['Content-Type'] = 'text/event-stream';
+            return $result;
         } else {
             throw new NotFoundHttpException('Log not found.');
         }

@@ -2,6 +2,7 @@
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ArrayDataProvider $dataProvider
+ * @var integer $defaultTailLine
  */
 
 use yii\grid\GridView;
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = 'Logs';
                     'headerOptions' => ['class' => 'sort-numerical'],
                 ], [
                     'class' => '\yii\grid\ActionColumn',
-                    'template' => '{history} {view} {archive} {delete} {download}',
+                    'template' => '{history} {view} {tail} {archive} {delete} {download}',
                     'urlCreator' => function ($action, Log $log) {
                         return [$action, 'slug' => $log->slug];
                     },
@@ -57,6 +58,12 @@ $this->params['breadcrumbs'][] = 'Logs';
                         },
                         'view' => function ($url, Log $log) {
                             return !$log->isExist ? '' : Html::a('View', $url, [
+                                'class' => 'btn btn-xs btn-primary',
+                                'target' => '_blank',
+                            ]);
+                        },
+                        'tail' => function ($url, Log $log) use ($defaultTailLine) {
+                            return !$log->isExist ? '' : Html::a('Tail', $url + ['line' => $defaultTailLine], [
                                 'class' => 'btn btn-xs btn-primary',
                                 'target' => '_blank',
                             ]);

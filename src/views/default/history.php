@@ -4,6 +4,7 @@
  * @var string $name
  * @var \yii\data\ArrayDataProvider $dataProvider
  * @var integer $fullSize
+ * @var integer $defaultTailLine
  */
 
 use kriss\logReader\Log;
@@ -53,7 +54,7 @@ $captionBtnStr = implode(' ', $captionBtn);
                     'headerOptions' => ['class' => 'sort-numerical'],
                 ], [
                     'class' => '\yii\grid\ActionColumn',
-                    'template' => '{view} {delete} {download}',
+                    'template' => '{view} {tail} {delete} {download}',
                     'urlCreator' => function ($action, Log $log) {
                         return [$action, 'slug' => $log->slug, 'stamp' => $log->stamp];
                     },
@@ -63,6 +64,15 @@ $captionBtnStr = implode(' ', $captionBtn);
                                 return '';
                             }
                             return Html::a('View', $url, [
+                                'class' => 'btn btn-xs btn-primary',
+                                'target' => '_blank',
+                            ]);
+                        },
+                        'tail' => function ($url, Log $log) use ($defaultTailLine) {
+                            if ($log->isZip) {
+                                return '';
+                            }
+                            return Html::a('Tail', $url + ['line' => $defaultTailLine], [
                                 'class' => 'btn btn-xs btn-primary',
                                 'target' => '_blank',
                             ]);

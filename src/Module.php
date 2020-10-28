@@ -32,6 +32,10 @@ class Module extends \yii\base\Module implements BootstrapInterface
      * @var string
      */
     public $defaultLevelClass = 'label-default';
+    /**
+     * @var int
+     */
+    public $defaultTailLine = 100;
 
     /**
      * @inheritdoc
