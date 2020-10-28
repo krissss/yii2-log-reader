@@ -2,7 +2,7 @@ Yii2 Log Reader
 ===============
 Yii2 log reader
 
-> this project is extend from [zhuravljov/yii2-logreader](https://github.com/zhuravljov/yii2-logreader), and Add more operation like `delete` `download` and so on.
+> this project is extend from [zhuravljov/yii2-logreader](https://github.com/zhuravljov/yii2-logreader), and Add more operation like `delete` `download` `tail` and so on.
 
 > from 2.0. `history` can load file that Yii2 FileTarget rotated. See [History Usage](#history-usage)
 
@@ -54,6 +54,7 @@ return [
                 'Backend' => '@backend/runtime/logs/app.log',
                 'Console' => '@console/runtime/logs/app.log',
             ],
+            //'defaultTailLine' => 200,
         ],
     ],
 ];
