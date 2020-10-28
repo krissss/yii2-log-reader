@@ -23,7 +23,8 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        Url::remember();
+        $this->rememberUrl();
+        
         $dataProvider = new ArrayDataProvider([
             'allModels' => $this->module->getLogs(),
             'sort' => [
@@ -66,13 +67,13 @@ class DefaultController extends Controller
 
     public function actionHistory($slug)
     {
-        Url::remember();
-        
+        $this->rememberUrl();
+
         $log = $this->find($slug, null);
         $allLogs = $this->module->getHistory($log);
-        
+
         $fullSize = array_sum(ArrayHelper::getColumn($allLogs, 'size'));
-        
+
         $dataProvider = new ArrayDataProvider([
             'allModels' => $allLogs,
             'sort' => [
@@ -101,7 +102,7 @@ class DefaultController extends Controller
             $result = $model->zip();
             if ($result !== false) {
                 Yii::$app->session->setFlash('success', 'zip success');
-                return $this->redirect(Url::previous());
+                return $this->redirectPrevious();
             } else {
                 Yii::$app->session->setFlash('error', 'zip error: ', implode('<br>', $model->getFirstErrors()));
             }
@@ -119,7 +120,7 @@ class DefaultController extends Controller
             $result = $model->clean();
             if ($result !== false) {
                 Yii::$app->session->setFlash('success', 'clean success');
-                return $this->redirect(Url::previous());
+                return $this->redirectPrevious();
             } else {
                 Yii::$app->session->setFlash('error', 'clean error: ', implode('<br>', $model->getFirstErrors()));
             }
@@ -135,7 +136,7 @@ class DefaultController extends Controller
         if ($since) {
             if ($log->updatedAt != $since) {
                 Yii::$app->session->setFlash('error', 'delete error: file has updated');
-                return $this->redirect(Url::previous());
+                return $this->redirectPrevious();
             }
         }
         if (unlink($log->fileName)) {
@@ -143,7 +144,7 @@ class DefaultController extends Controller
         } else {
             Yii::$app->session->setFlash('error', 'delete error');
         }
-        return $this->redirect(Url::previous());
+        return $this->redirectPrevious();
     }
 
     public function actionDownload($slug, $stamp = null)
@@ -183,5 +184,15 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException('Log not found.');
         }
+    }
+
+    protected function rememberUrl($url = '')
+    {
+        Url::remember($url, '__logReaderReturnUrl');
+    }
+
+    protected function redirectPrevious()
+    {
+        return $this->redirect(Url::previous('__logReaderReturnUrl'));
     }
 }
