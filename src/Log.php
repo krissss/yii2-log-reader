@@ -151,7 +151,7 @@ class Log extends BaseObject
                 }
             }
             fclose($h);
-            Yii::$app->cache->set($key, $counts, 0, new FileDependency([
+            Yii::$app->cache->set($key, $counts, null, new FileDependency([
                 'fileName' => $this->getFileName(),
             ]));
         }
