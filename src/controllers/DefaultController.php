@@ -164,7 +164,7 @@ class DefaultController extends Controller
             $result = shell_exec("tail -n {$line} {$log->fileName}");
 
             Yii::$app->response->format = Response::FORMAT_RAW;
-            Yii::$app->response->headers['Content-Type'] = 'text/event-stream';
+            Yii::$app->response->headers->set('Content-Type', 'text/event-stream');
             return $result;
         } else {
             throw new NotFoundHttpException('Log not found.');
