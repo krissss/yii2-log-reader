@@ -157,11 +157,16 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionTail($slug, $line = 100, $stamp = null)
+    public function actionTail($slug, $line = 100, $start = 0, $stamp = null)
     {
         $log = $this->find($slug, $stamp);
+        $this->layout = 'main';
+
+        return $this->render('detail', [
+            'log' => $log,
+        ]);
         if ($log->isExist) {
-            $result = shell_exec("tail -n {$line} {$log->fileName}");
+            $result = shell_exec("tail -n +{$start} {$line} {$log->fileName}");
 
             Yii::$app->response->format = Response::FORMAT_RAW;
             Yii::$app->response->headers->set('Content-Type', 'text/event-stream');
