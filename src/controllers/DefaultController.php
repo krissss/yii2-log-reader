@@ -160,6 +160,7 @@ class DefaultController extends Controller
     public function actionTail($slug, $line = 100, $stamp = null)
     {
         $log = $this->find($slug, $stamp);
+        $line = intval($line);
         if ($log->isExist) {
             $result = shell_exec("tail -n {$line} {$log->fileName}");
 
